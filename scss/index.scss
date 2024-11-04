@@ -1,0 +1,10 @@
+// Import custom variables first
+@import "variables";
+
+// Import Bootstrap with your custom variables
+@import "~bootstrap/scss/bootstrap";
+
+// Import custom styles for each page
+@import "auth";
+@import "feed";
+@import "profile";
