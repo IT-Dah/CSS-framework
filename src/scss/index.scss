@@ -1,7 +1,45 @@
+// Import Bootstrap
 @use "../../node_modules/bootstrap/scss/bootstrap" as *;
 
-// Legg til dine tilpassede stiler her
+// Custom styles
 body {
+  background-color: #f8f9fa; // Light background
   font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 400px;
+  margin-top: 50px;
+  padding: 20px;
+  background-color: #ffffff; // White background for the form
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  .form-label {
+    color: #495057;
+    font-weight: bold;
+  }
+
+  .form-control {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    &:focus {
+      border-color: #80bdff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+    }
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    width: 100%;
+    &:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+  }
 }

@@ -6,7 +6,8 @@
     "build": "sass src/scss/index.scss dist/css/styles.css --style=compressed",
     "watch": "sass --watch src/scss/index.scss:dist/css/styles.css",
     "start": "live-server dist",
-    "dev": "npm-run-all --parallel watch start"
+    "dev": "npm-run-all --parallel watch start",
+    "deploy": "npm run build && echo 'Your deployment command here'"
   },
   "dependencies": {
     "bootstrap": "^5.3.3"
