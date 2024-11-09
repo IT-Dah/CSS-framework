@@ -1,5 +1,4 @@
 // src/js/services/api.js
-import { API_KEY } from "./config.js";
 
 export async function apiPost(url, data) {
   try {
@@ -8,7 +7,6 @@ export async function apiPost(url, data) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${API_KEY}`,
       },
       body: JSON.stringify(data),
     });
