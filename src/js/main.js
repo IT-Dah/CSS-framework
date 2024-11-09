@@ -1,45 +1,53 @@
-// src/js/main.js
+// File: src/js/main.js
 import { registerUser, loginUser } from "./services/auth.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM fully loaded");
+// Handle Registration Form
+const registerForm = document.querySelector("#registerForm");
+if (registerForm) {
+  console.log("Register form found");
+  registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  const loginForm = document.querySelector("#loginForm");
-  const registerForm = document.querySelector("#registerForm");
+    const name = document.querySelector("#registerName").value;
+    const email = document.querySelector("#registerEmail").value;
+    const password = document.querySelector("#registerPassword").value;
 
-  if (loginForm) {
-    console.log("Login form found");
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.querySelector("#loginEmail").value;
-      const password = document.querySelector("#loginPassword").value;
-      console.log("Login form submitted", { email, password });
-      try {
-        const response = await loginUser(email, password);
-        alert("Login successful");
-        console.log(response);
-      } catch (error) {
-        alert("Login failed");
-        console.error(error);
+    if (name && email && password) {
+      const userData = { name, email, password };
+      console.log("Register form submitted", userData);
+      const result = await registerUser(userData);
+
+      // Redirect to login page if registration is successful
+      if (result) {
+        window.location.href = "/index.html";
       }
-    });
-  }
+    } else {
+      alert("Please fill out all fields.");
+    }
+  });
+}
 
-  if (registerForm) {
-    console.log("Register form found");
-    registerForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.querySelector("#registerEmail").value;
-      const password = document.querySelector("#registerPassword").value;
-      console.log("Register form submitted", { email, password });
-      try {
-        const response = await registerUser(email, password);
-        alert("Registration successful");
-        console.log(response);
-      } catch (error) {
-        alert("Registration failed");
-        console.error(error);
+// Handle Login Form
+const loginForm = document.querySelector("#loginForm");
+if (loginForm) {
+  console.log("Login form found");
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = document.querySelector("#loginEmail").value;
+    const password = document.querySelector("#loginPassword").value;
+
+    if (email && password) {
+      const userData = { email, password };
+      console.log("Login form submitted", userData);
+      const result = await loginUser(userData);
+
+      // Redirect to feed page if login is successful
+      if (result) {
+        window.location.href = "/feed/index.html";
       }
-    });
-  }
-});
+    } else {
+      alert("Please fill out all fields.");
+    }
+  });
+}
