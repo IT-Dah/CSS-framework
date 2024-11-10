@@ -1,29 +1,20 @@
-import { fetchPostsFromAPI } from "./services/api.js";
+// File: src/js/feed.js
+import { fetchPostsFromAPI, createPostInAPI } from "./services/api.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    // Fetch the posts from the API
     const posts = await fetchPostsFromAPI();
+    console.log("Fetched Posts:", posts);
 
-    // Limit to the last 5 posts
-    const recentPosts = posts.data.slice(0, 5); // Adjust the number to limit
-
-    console.log("Recent Posts:", recentPosts);
-
-    // Select the container where posts will be displayed
+    // Example of how to display the fetched posts (you can loop through posts and display them)
     const postsContainer = document.getElementById("postsContainer");
-
-    // Loop through the recent posts and display them
-    recentPosts.forEach((post) => {
+    posts.data.slice(0, 5).forEach((post) => {
       const postElement = document.createElement("div");
-      postElement.classList.add("col");
-
-      // Check if post has media (images, etc.)
-      const mediaUrl = post.media ? post.media.url : ""; // Add your media URL path here
-
       postElement.innerHTML = `
-        <div class="card h-100">
-          <img src="${mediaUrl}" class="card-img-top" alt="Post Thumbnail" />
+        <div class="card">
+          <img src="${
+            post.media?.url || "default.jpg"
+          }" class="card-img-top" alt="Post image">
           <div class="card-body">
             <h5 class="card-title">${post.title}</h5>
             <p class="card-text">${post.body}</p>
@@ -34,6 +25,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   } catch (error) {
     console.error("Error loading posts:", error);
-    alert("Failed to load posts.");
   }
 });
+
+// Add event listener to the new post form
+const postForm = document.getElementById("newPostForm");
+if (postForm) {
+  postForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const postTitle = document.getElementById("postTitle").value;
+    const postContent = document.getElementById("postContent").value;
+    const postImage = document.getElementById("postImage").value;
+
+    const newPost = {
+      title: postTitle,
+      body: postContent,
+      media: {
+        url: postImage,
+        alt: "Post Image",
+      },
+    };
+
+    try {
+      const createdPost = await createPostInAPI(newPost);
+      console.log("Post created:", createdPost);
+      alert("Post created successfully!");
+      // Optionally, reload the page or update the UI with the new post
+      location.reload(); // Refresh the page to show the new post
+    } catch (error) {
+      console.error("Error creating post:", error);
+      alert("Failed to create post.");
+    }
+  });
+}
