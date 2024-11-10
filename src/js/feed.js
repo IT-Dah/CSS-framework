@@ -1,27 +1,53 @@
-// File: src/js/feed.js
 import { fetchPostsFromAPI, createPostInAPI } from "./services/api.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
+    // Fetch posts from the API
     const posts = await fetchPostsFromAPI();
     console.log("Fetched Posts:", posts);
 
-    // Example of how to display the fetched posts (you can loop through posts and display them)
-    const postsContainer = document.getElementById("postsContainer");
-    posts.data.slice(0, 5).forEach((post) => {
-      const postElement = document.createElement("div");
-      postElement.innerHTML = `
-        <div class="card">
-          <img src="${
-            post.media?.url || "default.jpg"
-          }" class="card-img-top" alt="Post image">
-          <div class="card-body">
-            <h5 class="card-title">${post.title}</h5>
-            <p class="card-text">${post.body}</p>
+    // Function to display posts
+    function displayPosts(postsToDisplay) {
+      const postsContainer = document.getElementById("postsContainer");
+      postsContainer.innerHTML = ""; // Clear the existing posts
+      postsToDisplay.slice(0, 5).forEach((post) => {
+        const postElement = document.createElement("div");
+        postElement.innerHTML = `
+          <div class="card">
+            <img src="${
+              post.media?.url || "default.jpg"
+            }" class="card-img-top" alt="Post image">
+            <div class="card-body">
+              <h5 class="card-title">${post.title}</h5>
+              <p class="card-text">${post.body}</p>
+            </div>
           </div>
-        </div>
-      `;
-      postsContainer.appendChild(postElement);
+        `;
+        postsContainer.appendChild(postElement);
+      });
+    }
+
+    // Initially display posts
+    displayPosts(posts.data);
+
+    // Handle sort functionality
+    const sortSelect = document.getElementById("sortSelect");
+    sortSelect.addEventListener("change", function () {
+      const sortBy = sortSelect.value;
+      let sortedPosts;
+
+      if (sortBy === "date") {
+        // Sort posts by date (Assuming `post.date` exists)
+        sortedPosts = posts.data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+      } else if (sortBy === "popularity") {
+        // Sort posts by popularity (Assuming `post.likes` exists)
+        sortedPosts = posts.data.sort((a, b) => b.likes - a.likes);
+      }
+
+      // Display sorted posts
+      displayPosts(sortedPosts);
     });
   } catch (error) {
     console.error("Error loading posts:", error);
