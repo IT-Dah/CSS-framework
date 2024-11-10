@@ -1,19 +1,18 @@
 // File: src/js/services/api.js
 
 const API_KEY = "a223c2cb-fa90-4c4f-81a3-65ab7b95c3d8";
-const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGhlcmVzZSIsImVtYWlsIjoidGhlcmVzZUBzdHVkLm5vcm9mZi5ubyIsImlhdCI6MTcyNzkzMjk0OX0.yQPUCytPzqk4a36Rw4bYQQDH5RNxaXQgHCC9hQEBS0E"; // Hardcoded for now, replace as needed
+const accessToken = localStorage.getItem("accessToken");
 
-// Function to fetch posts from the API
+// Function to fetch all posts from the API
 export async function fetchPostsFromAPI() {
   try {
-    // Send the GET request with the Authorization header and API Key
+    console.log("Fetching all posts");
     const response = await fetch("https://v2.api.noroff.dev/social/posts", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`, // Authorization header with token
-        "X-Noroff-API-Key": API_KEY, // API Key in the headers
+        Authorization: `Bearer ${accessToken}`,
+        "X-Noroff-API-Key": API_KEY,
       },
     });
 
@@ -22,6 +21,7 @@ export async function fetchPostsFromAPI() {
     }
 
     const posts = await response.json();
+    console.log("Fetched Posts:", posts);
     return posts;
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -29,11 +29,41 @@ export async function fetchPostsFromAPI() {
   }
 }
 
-// Function to fetch posts by a specific author
-export async function fetchUserPosts(authorName) {
+// Function to create a new post in the API
+export async function createPostInAPI(postData) {
   try {
+    console.log("Creating Post:", postData);
+
+    const response = await fetch("https://v2.api.noroff.dev/social/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        "X-Noroff-API-Key": API_KEY,
+      },
+      body: JSON.stringify(postData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error creating post");
+    }
+
+    const result = await response.json();
+    console.log("Created Post:", result);
+    return result;
+  } catch (error) {
+    console.error("Error creating post:", error);
+    throw error;
+  }
+}
+
+// Function to fetch user posts by author
+export async function fetchPostsByAuthor(author) {
+  try {
+    console.log("Fetching posts by author:", author);
+
     const response = await fetch(
-      `https://v2.api.noroff.dev/social/posts?author=${authorName}`,
+      `https://v2.api.noroff.dev/social/posts?author=${author}`,
       {
         method: "GET",
         headers: {
@@ -45,46 +75,14 @@ export async function fetchUserPosts(authorName) {
     );
 
     if (!response.ok) {
-      throw new Error("API request failed");
+      throw new Error("Error fetching posts");
     }
 
     const posts = await response.json();
+    console.log("Fetched User Posts:", posts);
     return posts;
   } catch (error) {
     console.error("Error fetching user posts:", error);
-    throw error;
-  }
-}
-
-// Function to create a new post in the API
-export async function createPostInAPI(postData) {
-  const userData = JSON.parse(localStorage.getItem("userData")); // Get user data from localStorage
-  if (!userData) {
-    throw new Error("User data not found. Please log in again.");
-  }
-
-  // Add author to the post data
-  postData.author = userData.name;
-
-  try {
-    const response = await fetch("https://v2.api.noroff.dev/social/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`, // Authorization header with token
-        "X-Noroff-API-Key": API_KEY, // API Key in the headers
-      },
-      body: JSON.stringify(postData),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error creating post");
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error("Error creating post:", error);
     throw error;
   }
 }

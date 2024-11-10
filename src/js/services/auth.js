@@ -37,22 +37,14 @@ export async function registerUser(userData) {
     }
 
     // Send the API request
-    const response = await apiPost(API_AUTH_REGISTER, registrationData);
+    const data = await apiPost(API_AUTH_REGISTER, registrationData);
 
-    if (response.ok) {
-      const data = await response.json();
+    if (data) {
       alert("Registration successful!");
       window.location.href = "../index.html";
       return data;
     } else {
-      // Log the error response
-      const errorData = await response.json();
-      console.error("Error Response JSON:", errorData);
-      alert(
-        `Registration failed: ${
-          errorData.errors[0]?.message || "Unknown error"
-        }`
-      );
+      alert("Registration failed: Unknown error occurred.");
     }
   } catch (error) {
     alert("An error occurred during registration.");
