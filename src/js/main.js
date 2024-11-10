@@ -39,14 +39,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (loginForm) {
     loginForm.addEventListener("submit", async (event) => {
       event.preventDefault();
-
-      // Get login input values
       const email = document.querySelector("#loginEmail").value;
       const password = document.querySelector("#loginPassword").value;
       const result = await loginUser({ email, password });
 
       if (result) {
-        window.location.href = "/src/feed/index.html"; // Redirect to feed page
+        window.location.href = "/src/feed/index.html";
       }
     });
   }
