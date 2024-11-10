@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     // Fetch all posts from the API
     const posts = await fetchPostsFromAPI();
-    console.log("Fetched Posts:", posts);
 
     // Function to display posts
     function displayPosts(postsToDisplay) {
@@ -77,7 +76,6 @@ if (postForm) {
 
     try {
       const createdPost = await createPostInAPI(newPost);
-      console.log("Post created:", createdPost);
       alert("Post created successfully!");
       location.reload(); // Refresh the page to show the new post
     } catch (error) {

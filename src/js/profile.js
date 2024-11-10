@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       try {
         const createdPost = await createPostInAPI(newPost);
-        console.log("Post created:", createdPost);
         alert("Post created successfully!");
         // Optionally, reload the page or update the UI with the new post
         location.reload(); // Refresh the page to show the new post

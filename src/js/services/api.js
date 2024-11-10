@@ -7,8 +7,6 @@ const accessToken =
 // Function to fetch all posts from the API
 export async function fetchPostsFromAPI() {
   try {
-    console.log("Access Token:", accessToken); // Log the token for debugging
-
     // Send the GET request with the Authorization header and API Key
     const response = await fetch("https://v2.api.noroff.dev/social/posts", {
       method: "GET",
@@ -24,7 +22,6 @@ export async function fetchPostsFromAPI() {
     }
 
     const posts = await response.json();
-    console.log("Fetched Posts:", posts);
     return posts;
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -35,8 +32,6 @@ export async function fetchPostsFromAPI() {
 // Function to fetch posts by a specific author
 export async function fetchPostsByAuthor(authorName) {
   try {
-    console.log("Fetching posts by author:", authorName);
-
     const response = await fetch(
       `https://v2.api.noroff.dev/social/posts?author=${authorName}`,
       {
@@ -54,7 +49,6 @@ export async function fetchPostsByAuthor(authorName) {
     }
 
     const posts = await response.json();
-    console.log("Fetched User Posts:", posts);
     return posts;
   } catch (error) {
     console.error("Error fetching user posts:", error);
@@ -65,8 +59,6 @@ export async function fetchPostsByAuthor(authorName) {
 // Function to create a new post in the API
 export async function createPostInAPI(postData) {
   try {
-    console.log("Creating Post:", postData);
-
     const response = await fetch("https://v2.api.noroff.dev/social/posts", {
       method: "POST",
       headers: {
@@ -82,7 +74,6 @@ export async function createPostInAPI(postData) {
     }
 
     const result = await response.json();
-    console.log("Created Post:", result);
     return result;
   } catch (error) {
     console.error("Error creating post:", error);
@@ -93,8 +84,6 @@ export async function createPostInAPI(postData) {
 // General POST request function for other needs
 export async function apiPost(url, data) {
   try {
-    console.log("API Request:", url, data);
-
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -105,13 +94,11 @@ export async function apiPost(url, data) {
       body: JSON.stringify(data),
     });
 
-    console.log("API Response:", response);
     if (!response.ok) {
       throw new Error("API request failed");
     }
 
     const result = await response.json();
-    console.log("API Result:", result);
     return result;
   } catch (error) {
     console.error("API POST Error:", error);
