@@ -1,6 +1,9 @@
+// File: src/js/services/api.js
+
 export async function apiPost(url, data) {
   try {
     console.log("API Request:", url, data);
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -19,6 +22,29 @@ export async function apiPost(url, data) {
     return result;
   } catch (error) {
     console.error("API POST Error:", error);
+    throw error;
+  }
+}
+
+// Function to fetch posts from the API
+export async function fetchPostsFromAPI() {
+  try {
+    const response = await fetch("https://v2.api.noroff.dev/social/posts", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("API request failed");
+    }
+
+    const posts = await response.json();
+    console.log("Fetched Posts:", posts);
+    return posts;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
     throw error;
   }
 }
