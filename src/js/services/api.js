@@ -1,6 +1,6 @@
 // File: src/js/services/api.js
 
-// API Key and Access Token
+// Hardcoded API Key and Access Token
 const API_KEY = "a223c2cb-fa90-4c4f-81a3-65ab7b95c3d8";
 const accessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGhlcmVzZSIsImVtYWlsIjoidGhlcmVzZUBzdHVkLm5vcm9mZi5ubyIsImlhdCI6MTcyNzkzMjk0OX0.yQPUCytPzqk4a36Rw4bYQQDH5RNxaXQgHCC9hQEBS0E"; // Replace with your actual token
@@ -8,7 +8,7 @@ const accessToken =
 // Function to fetch posts from the API
 export async function fetchPostsFromAPI() {
   try {
-    // Check if the token exists
+    // Check if the token exists (for the sake of testing, you can ignore this check)
     if (!accessToken) {
       throw new Error("Unauthorized: No token found");
     }
@@ -41,6 +41,11 @@ export async function fetchPostsFromAPI() {
 // POST request function
 export async function apiPost(url, data) {
   try {
+    // Check if the token exists (for the sake of testing, you can ignore this check)
+    if (!accessToken) {
+      throw new Error("Unauthorized: No token found");
+    }
+
     console.log("API Request:", url, data);
 
     const response = await fetch(url, {
