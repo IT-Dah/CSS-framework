@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (!userData) {
     alert("Please log in.");
-    window.location.href = "../index.html"; // Redirect to login if no user data found
+    window.location.href = "../../index.html"; // Redirect to login if no user data found
     return;
   }
 
