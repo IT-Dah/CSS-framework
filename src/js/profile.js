@@ -1,3 +1,6 @@
+// File: src/js/profile.js
+import { createPostInAPI } from "../js/services/api.js";
+
 document.addEventListener("DOMContentLoaded", async () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -16,12 +19,30 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Fetch user's posts based on the userData (assuming userData has a 'name' or 'id' field)
   try {
-    const posts = await fetchUserPosts(userData.name); // Use userData.name as the identifier
+    const posts = await fetchUserPosts(userData.name);
     displayPosts(posts);
   } catch (error) {
     console.error("Error fetching user posts:", error);
     alert("Failed to fetch posts. Please try again later.");
   }
+
+  // Toggle Update Profile Form
+  const toggleUpdateProfileButton = document.getElementById(
+    "toggleUpdateProfileButton"
+  );
+  const updateProfileSection = document.getElementById("updateProfileSection");
+  toggleUpdateProfileButton.addEventListener("click", () => {
+    updateProfileSection.style.display =
+      updateProfileSection.style.display === "none" ? "block" : "none";
+  });
+
+  // Toggle New Post Form
+  const toggleNewPostButton = document.getElementById("toggleNewPostButton");
+  const newPostSection = document.getElementById("newPostSection");
+  toggleNewPostButton.addEventListener("click", () => {
+    newPostSection.style.display =
+      newPostSection.style.display === "none" ? "block" : "none";
+  });
 
   // Handle profile update
   const updateProfileForm = document.getElementById("updateProfileForm");
@@ -39,7 +60,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         },
       };
 
-      // Update profile in the API
       try {
         const response = await updateProfileAPI(updatedProfile);
         alert("Profile updated successfully!");
@@ -52,11 +72,42 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
   }
+
+  // Handle new post submission
+  const newPostForm = document.getElementById("newPostForm");
+  if (newPostForm) {
+    newPostForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const postTitle = document.getElementById("postTitle").value;
+      const postContent = document.getElementById("postContent").value;
+      const postImage = document.getElementById("postImage").value;
+
+      const newPost = {
+        title: postTitle,
+        body: postContent,
+        media: {
+          url: postImage,
+          alt: "Post Image",
+        },
+      };
+
+      try {
+        const createdPost = await createPostInAPI(newPost);
+        console.log("Post created:", createdPost);
+        alert("Post created successfully!");
+        location.reload(); // Refresh the page to show the new post
+      } catch (error) {
+        console.error("Error creating post:", error);
+        alert("Failed to create post.");
+      }
+    });
+  }
 });
 
 // Function to fetch user posts
 async function fetchUserPosts(username) {
-  const accessToken = localStorage.getItem("accessToken"); // Get the token from localStorage
+  const accessToken = localStorage.getItem("accessToken");
 
   if (!accessToken) {
     throw new Error("Access token is missing. Please log in.");
@@ -68,7 +119,7 @@ async function fetchUserPosts(username) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`, // Use the token from localStorage
+        Authorization: `Bearer ${accessToken}`,
       },
     }
   );
@@ -85,7 +136,7 @@ async function fetchUserPosts(username) {
 // Function to display posts
 function displayPosts(posts) {
   const postsContainer = document.getElementById("userPostsContainer");
-  postsContainer.innerHTML = ""; // Clear existing posts
+  postsContainer.innerHTML = "";
 
   if (posts.length === 0) {
     const noPostsMessage = document.createElement("p");

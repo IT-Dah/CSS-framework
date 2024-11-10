@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     function displayPosts(postsToDisplay) {
       const postsContainer = document.getElementById("postsContainer");
       postsContainer.innerHTML = ""; // Clear the existing posts
-      postsToDisplay.slice(0, 5).forEach((post) => {
+      postsToDisplay.slice(0, 12).forEach((post) => {
         const postElement = document.createElement("div");
         postElement.innerHTML = `
           <div class="card">
