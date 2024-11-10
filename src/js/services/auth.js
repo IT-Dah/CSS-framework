@@ -1,6 +1,6 @@
 // File: src/js/services/auth.js
 import { API_AUTH_LOGIN, API_AUTH_REGISTER } from "./config.js";
-import { apiPost } from "./api.js";
+import { apiPost } from "./api.js"; // Ensure this path is correct
 
 export async function registerUser(userData) {
   try {
@@ -37,14 +37,22 @@ export async function registerUser(userData) {
     }
 
     // Send the API request
-    const data = await apiPost(API_AUTH_REGISTER, registrationData);
+    const response = await apiPost(API_AUTH_REGISTER, registrationData);
 
-    if (data) {
+    if (response.ok) {
+      const data = await response.json();
       alert("Registration successful!");
       window.location.href = "../index.html";
       return data;
     } else {
-      alert("Registration failed: Unknown error occurred.");
+      // Log the error response
+      const errorData = await response.json();
+      console.error("Error Response JSON:", errorData);
+      alert(
+        `Registration failed: ${
+          errorData.errors[0]?.message || "Unknown error"
+        }`
+      );
     }
   } catch (error) {
     alert("An error occurred during registration.");
