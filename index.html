@@ -1,4 +1,3 @@
-<!-- File: index.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,7 +13,6 @@
     <div class="container mt-5">
       <h1 class="text-center mb-4">Welcome to Social Media App</h1>
 
-      <!-- Tabs for Login and Register -->
       <ul class="nav nav-tabs" id="authTabs" role="tablist">
         <li class="nav-item">
           <button
@@ -38,7 +36,6 @@
         </li>
       </ul>
 
-      <!-- Tab Content -->
       <div class="tab-content mt-4">
         <!-- Login Form -->
         <div class="tab-pane fade show active" id="login">
@@ -66,7 +63,7 @@
           </form>
         </div>
 
-        <!-- Registration Form -->
+        <!-- Register Form -->
         <div class="tab-pane fade" id="register">
           <form id="registerForm">
             <div class="mb-3">
@@ -110,28 +107,12 @@
                 required />
             </div>
             <div class="mb-3">
-              <label for="registerBio" class="form-label">Bio</label>
-              <input
-                type="text"
-                class="form-control"
-                id="registerBio"
-                placeholder="A short bio" />
-            </div>
-            <div class="mb-3">
               <label for="registerAvatar" class="form-label">Avatar URL</label>
               <input
                 type="url"
                 class="form-control"
                 id="registerAvatar"
                 placeholder="https://example.com/avatar.jpg" />
-            </div>
-            <div class="mb-3">
-              <label for="registerBanner" class="form-label">Banner URL</label>
-              <input
-                type="url"
-                class="form-control"
-                id="registerBanner"
-                placeholder="https://example.com/banner.jpg" />
             </div>
             <button type="submit" class="btn btn-success w-100">
               Register
@@ -141,7 +122,6 @@
       </div>
     </div>
 
-    <!-- Bootstrap JS and Main JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="src/js/main.js" type="module"></script>
   </body>

@@ -1,3 +1,5 @@
+// File: src/js/services/utils.js
+
 export function saveToLocalStorage(key, value) {
   localStorage.setItem(key, value);
 }

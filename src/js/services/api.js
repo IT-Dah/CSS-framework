@@ -29,10 +29,20 @@ export async function apiPost(url, data) {
 // Function to fetch posts from the API
 export async function fetchPostsFromAPI() {
   try {
+    // Get the access token from localStorage
+    const accessToken = localStorage.getItem("accessToken");
+
+    // Check if the token exists
+    if (!accessToken) {
+      throw new Error("Unauthorized: No token found");
+    }
+
+    // Send the GET request with the Authorization header
     const response = await fetch("https://v2.api.noroff.dev/social/posts", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`, // Pass the token here
       },
     });
 

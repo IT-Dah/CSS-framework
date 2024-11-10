@@ -8,13 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("profileName").innerText = userData.name;
     document.getElementById("profileEmail").innerText = userData.email;
     document.getElementById("profileAvatar").src = userData.avatar.url;
-  } else {
-    alert("No user data found. Please log in.");
-    window.location.href = "/index.html"; // Redirect to login page
   }
 
   // Handle profile update (e.g., bio, avatar)
-  const updateProfileForm = document.getElementById("editProfileForm");
+  const updateProfileForm = document.getElementById("updateProfileForm");
   if (updateProfileForm) {
     updateProfileForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -30,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       };
 
-      // Make the API call to update the profile
+      // Assuming the API call to update the profile looks like this
       const response = await fetch(
         "https://v2.api.noroff.dev/social/profiles",
         {
@@ -44,19 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       if (response.ok) {
-        const updatedData = await response.json();
         alert("Profile updated successfully!");
-
-        // Update localStorage with the new profile data
-        localStorage.setItem("userData", JSON.stringify(updatedData.data));
-
-        // Optionally, update the profile UI with the new data
-        document.getElementById("profileName").innerText =
-          updatedData.data.name;
-        document.getElementById("profileEmail").innerText =
-          updatedData.data.email;
-        document.getElementById("profileAvatar").src =
-          updatedData.data.avatar.url;
+        // Optionally, reload or update the UI with the new profile data
       } else {
         alert("Failed to update profile.");
       }
