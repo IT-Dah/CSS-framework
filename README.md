@@ -1,2 +1,3 @@
-Please read through the word document i attatched to the delivery as it contains important information.
--Thank you
+Please read through the Word document attached to the submission, as it contains important information.
+
+Thank you!
