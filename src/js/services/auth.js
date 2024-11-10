@@ -21,8 +21,6 @@ export async function registerUser(userData) {
       venueManager: false, // Setting it to false by default
     };
 
-    console.log("Registration Payload:", registrationData);
-
     // Validate email format (must end with "@stud.noroff.no")
     const emailPattern = /^[a-zA-Z0-9._%+-]+@stud\.noroff\.no$/;
     if (!emailPattern.test(userData.email)) {
@@ -66,9 +64,6 @@ export async function registerUser(userData) {
 export async function loginUser(userData) {
   try {
     const data = await apiPost(API_AUTH_LOGIN, userData);
-
-    // Log the response data for debugging
-    console.log("API Response Data:", data);
 
     // Extract the accessToken from the nested user data
     const accessToken = data?.data?.accessToken;

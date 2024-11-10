@@ -7,8 +7,6 @@ const accessToken =
 // Function to fetch posts from the API
 export async function fetchPostsFromAPI() {
   try {
-    console.log("Access Token:", accessToken); // Log the token for debugging
-
     // Send the GET request with the Authorization header and API Key
     const response = await fetch("https://v2.api.noroff.dev/social/posts", {
       method: "GET",
@@ -24,7 +22,6 @@ export async function fetchPostsFromAPI() {
     }
 
     const posts = await response.json();
-    console.log("Fetched Posts:", posts);
     return posts;
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -35,8 +32,6 @@ export async function fetchPostsFromAPI() {
 // Function to fetch posts by a specific author
 export async function fetchUserPosts(authorName) {
   try {
-    console.log(`Fetching posts by author: ${authorName}`);
-
     const response = await fetch(
       `https://v2.api.noroff.dev/social/posts?author=${authorName}`,
       {
@@ -54,7 +49,6 @@ export async function fetchUserPosts(authorName) {
     }
 
     const posts = await response.json();
-    console.log("Fetched User Posts:", posts);
     return posts;
   } catch (error) {
     console.error("Error fetching user posts:", error);
@@ -73,8 +67,6 @@ export async function createPostInAPI(postData) {
   postData.author = userData.name;
 
   try {
-    console.log("Creating Post:", postData);
-
     const response = await fetch("https://v2.api.noroff.dev/social/posts", {
       method: "POST",
       headers: {
@@ -90,7 +82,6 @@ export async function createPostInAPI(postData) {
     }
 
     const result = await response.json();
-    console.log("Created Post:", result);
     return result;
   } catch (error) {
     console.error("Error creating post:", error);
