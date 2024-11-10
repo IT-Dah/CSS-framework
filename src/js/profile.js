@@ -1,4 +1,5 @@
 // File: src/js/profile.js
+
 import { fetchPostsByAuthor, createPostInAPI } from "../js/services/api.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -19,34 +20,68 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Fetch user's posts
   try {
-    const posts = await fetchPostsByAuthor(userData.name);
-    displayPosts(posts.data.slice(0, 6)); // Display 6 latest posts
+    const posts = await fetchPostsByAuthor(userData.name); // Fetch posts created by the user
+    displayPosts(posts);
   } catch (error) {
     console.error("Error fetching user posts:", error);
     alert("Failed to fetch posts. Please try again later.");
   }
 
-  // Toggle Update Profile form visibility
+  // Event listeners for toggling the visibility of the update profile and create post sections
   const toggleUpdateProfileButton = document.getElementById(
     "toggleUpdateProfileButton"
   );
-  const updateProfileSection = document.getElementById("updateProfileSection");
-
-  toggleUpdateProfileButton.addEventListener("click", () => {
-    updateProfileSection.style.display =
-      updateProfileSection.style.display === "none" ? "block" : "none";
-  });
-
-  // Toggle New Post form visibility
   const toggleNewPostButton = document.getElementById("toggleNewPostButton");
+  const updateProfileSection = document.getElementById("updateProfileSection");
   const newPostSection = document.getElementById("newPostSection");
 
-  toggleNewPostButton.addEventListener("click", () => {
-    newPostSection.style.display =
-      newPostSection.style.display === "none" ? "block" : "none";
-  });
+  if (toggleUpdateProfileButton) {
+    toggleUpdateProfileButton.addEventListener("click", () => {
+      updateProfileSection.style.display =
+        updateProfileSection.style.display === "none" ? "block" : "none";
+      newPostSection.style.display = "none"; // Hide new post section if visible
+    });
+  }
 
-  // Handle new post submission
+  if (toggleNewPostButton) {
+    toggleNewPostButton.addEventListener("click", () => {
+      newPostSection.style.display =
+        newPostSection.style.display === "none" ? "block" : "none";
+      updateProfileSection.style.display = "none"; // Hide update profile section if visible
+    });
+  }
+
+  // Handle profile update form submission
+  const updateProfileForm = document.getElementById("updateProfileForm");
+  if (updateProfileForm) {
+    updateProfileForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const newBio = document.getElementById("profileBioInput").value;
+      const newAvatar = document.getElementById("profileAvatarInput").value;
+
+      const updatedProfile = {
+        bio: newBio,
+        avatar: {
+          url: newAvatar,
+          alt: "User avatar",
+        },
+      };
+
+      // Update profile in the API
+      try {
+        const response = await updateProfileAPI(updatedProfile);
+        alert("Profile updated successfully!");
+        localStorage.setItem("userData", JSON.stringify(response.data));
+        document.getElementById("profileAvatar").src = response.data.avatar.url;
+        document.getElementById("profileBio").innerText = response.data.bio;
+      } catch (error) {
+        console.error("Failed to update profile:", error);
+        alert("Failed to update profile.");
+      }
+    });
+  }
+
+  // Handle new post form submission
   const newPostForm = document.getElementById("newPostForm");
   if (newPostForm) {
     newPostForm.addEventListener("submit", async (event) => {
@@ -70,6 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const createdPost = await createPostInAPI(newPost);
         console.log("Post created:", createdPost);
         alert("Post created successfully!");
+        // Optionally, reload the page or update the UI with the new post
         location.reload(); // Refresh the page to show the new post
       } catch (error) {
         console.error("Error creating post:", error);
@@ -79,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// Function to display user's posts
+// Function to display posts
 function displayPosts(posts) {
   const postsContainer = document.getElementById("userPostsContainer");
   postsContainer.innerHTML = ""; // Clear existing posts
@@ -90,7 +126,8 @@ function displayPosts(posts) {
     postsContainer.appendChild(noPostsMessage);
   }
 
-  posts.forEach((post) => {
+  // Only show the latest 6 posts
+  posts.slice(0, 6).forEach((post) => {
     const postElement = document.createElement("div");
     postElement.classList.add("card", "mb-3");
     postElement.innerHTML = `
@@ -100,6 +137,9 @@ function displayPosts(posts) {
       <div class="card-body">
         <h5 class="card-title">${post.title}</h5>
         <p class="card-text">${post.body}</p>
+        <p class="card-text text-muted">Posted by: ${
+          post.author || "Unknown"
+        }</p>
       </div>
     `;
     postsContainer.appendChild(postElement);
