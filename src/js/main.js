@@ -12,7 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const email = document.querySelector("#registerEmail").value;
       const password = document.querySelector("#registerPassword").value;
       const result = await registerUser({ name, email, password });
-      if (result) window.location.href = "/index.html";
+      if (result) {
+        alert("Registration successful. Please log in.");
+        window.location.href = "/index.html";
+      }
     });
   }
 
@@ -22,8 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const email = document.querySelector("#loginEmail").value;
       const password = document.querySelector("#loginPassword").value;
       const result = await loginUser({ email, password });
-      // Updated redirect path
-      if (result) window.location.href = "/feed/index.html";
+      if (result) {
+        // Updated to match the current file structure
+        window.location.href = "/src/feed/index.html";
+      }
     });
   }
 });

@@ -4,7 +4,7 @@
   "scripts": {
     "build": "sass src/scss/index.scss dist/css/styles.css --style=compressed",
     "watch": "sass --watch src/scss/index.scss:dist/css/styles.css",
-    "start": "live-server src --port=8080",
+    "start": "live-server",
     "dev": "npm-run-all --parallel watch start"
   },
   "dependencies": {
