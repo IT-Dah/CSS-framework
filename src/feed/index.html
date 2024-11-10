@@ -7,7 +7,75 @@
     <link rel="stylesheet" href="../../dist/css/styles.css" />
   </head>
   <body>
-    <h1>Feed Page</h1>
-    <div id="feedContainer"></div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+      <div class="container">
+        <a class="navbar-brand" href="#">My Social App</a>
+        <button class="btn btn-outline-danger" id="logoutButton">Logout</button>
+      </div>
+    </nav>
+
+    <!-- Search and Sort Section -->
+    <div class="container mb-4">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="searchInput"
+          placeholder="Search posts..." />
+        <select class="form-select" id="sortSelect">
+          <option value="date">Sort by Date</option>
+          <option value="popularity">Sort by Popularity</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Posts Section -->
+    <div class="container">
+      <div id="postsContainer" class="row row-cols-1 row-cols-md-2 g-4">
+        <!-- Example Post Card -->
+        <div class="col">
+          <div class="card h-100">
+            <img
+              src="https://via.placeholder.com/150"
+              class="card-img-top"
+              alt="Post Thumbnail" />
+            <div class="card-body">
+              <h5 class="card-title">Post Title</h5>
+              <p class="card-text">
+                This is a sample post content. It will be replaced by actual
+                posts.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Post Form -->
+    <div class="container mt-4">
+      <h2>Create a New Post</h2>
+      <form id="newPostForm">
+        <div class="mb-3">
+          <label for="postTitle" class="form-label">Title</label>
+          <input type="text" class="form-control" id="postTitle" required />
+        </div>
+        <div class="mb-3">
+          <label for="postContent" class="form-label">Content</label>
+          <textarea
+            class="form-control"
+            id="postContent"
+            rows="3"
+            required></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="postImage" class="form-label">Image URL</label>
+          <input type="url" class="form-control" id="postImage" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Post</button>
+      </form>
+    </div>
+
+    <script src="/src/js/main.js" type="module"></script>
   </body>
 </html>

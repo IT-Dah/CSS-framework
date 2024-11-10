@@ -1,5 +1,3 @@
-// src/js/services/api.js
-
 export async function apiPost(url, data) {
   try {
     console.log("API Request:", url, data);
