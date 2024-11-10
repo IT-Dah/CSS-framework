@@ -1,3 +1,5 @@
+// File: src/js/feed.js
+
 import { fetchPostsFromAPI, createPostInAPI } from "./services/api.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -10,17 +12,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     function displayPosts(postsToDisplay) {
       const postsContainer = document.getElementById("postsContainer");
       postsContainer.innerHTML = ""; // Clear the existing posts
+
       postsToDisplay.slice(0, 12).forEach((post) => {
         const postElement = document.createElement("div");
+        postElement.classList.add("card", "mb-3");
         postElement.innerHTML = `
-          <div class="card">
-            <img src="${
-              post.media?.url || "default.jpg"
-            }" class="card-img-top" alt="Post image">
-            <div class="card-body">
-              <h5 class="card-title">${post.title}</h5>
-              <p class="card-text">${post.body}</p>
-            </div>
+          <img src="${
+            post.media?.url || "default.jpg"
+          }" class="card-img-top" alt="Post image">
+          <div class="card-body">
+            <h5 class="card-title">${post.title}</h5>
+            <p class="card-text">${post.body}</p>
+            <small class="text-muted">Posted by: ${
+              post.author || "Unknown"
+            }</small>
           </div>
         `;
         postsContainer.appendChild(postElement);

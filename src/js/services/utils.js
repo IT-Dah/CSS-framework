@@ -1,13 +1,15 @@
 // File: src/js/services/utils.js
 
-export function saveToLocalStorage(key, value) {
-  localStorage.setItem(key, value);
-}
+import { fetchUserPosts } from "./api.js";
 
-export function getFromLocalStorage(key) {
-  return localStorage.getItem(key);
-}
+// Function to fetch posts for the logged-in user
+export async function fetchLoggedInUserPosts() {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const accessToken = localStorage.getItem("accessToken");
 
-export function removeFromLocalStorage(key) {
-  localStorage.removeItem(key);
+  if (!userData || !accessToken) {
+    throw new Error("User is not logged in or access token is missing.");
+  }
+
+  return await fetchUserPosts(userData.name);
 }
