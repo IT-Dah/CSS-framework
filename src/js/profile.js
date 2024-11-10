@@ -33,14 +33,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const updateProfileSection = document.getElementById("updateProfileSection");
 
   toggleUpdateProfileButton.addEventListener("click", () => {
-    if (
-      updateProfileSection.style.display === "none" ||
-      updateProfileSection.style.display === ""
-    ) {
-      updateProfileSection.style.display = "block";
-    } else {
-      updateProfileSection.style.display = "none";
-    }
+    updateProfileSection.style.display =
+      updateProfileSection.style.display === "none" ? "block" : "none";
   });
 
   // Toggle New Post form visibility
@@ -48,14 +42,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const newPostSection = document.getElementById("newPostSection");
 
   toggleNewPostButton.addEventListener("click", () => {
-    if (
-      newPostSection.style.display === "none" ||
-      newPostSection.style.display === ""
-    ) {
-      newPostSection.style.display = "block";
-    } else {
-      newPostSection.style.display = "none";
-    }
+    newPostSection.style.display =
+      newPostSection.style.display === "none" ? "block" : "none";
   });
 
   // Handle new post submission
