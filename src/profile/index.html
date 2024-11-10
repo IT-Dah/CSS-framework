@@ -1,3 +1,4 @@
+<!-- File: src/profile/index.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,6 +11,7 @@
       rel="stylesheet" />
   </head>
   <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
       <div class="container">
         <a class="navbar-brand" href="#">My Social App</a>
@@ -17,6 +19,7 @@
       </div>
     </nav>
 
+    <!-- Profile Information Section -->
     <div class="container">
       <h1 class="text-center">Profile</h1>
       <div class="row">
@@ -37,7 +40,7 @@
       <h2 class="mt-4">Update Profile</h2>
       <form id="updateProfileForm">
         <div class="mb-3">
-          <label for="profileBio" class="form-label">Bio</label>
+          <label for="profileBioInput" class="form-label">Bio</label>
           <textarea
             class="form-control"
             id="profileBioInput"
@@ -56,6 +59,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="src/js/profile.js" type="module"></script>
+    <script src="../js/profile.js" type="module"></script>
   </body>
 </html>
