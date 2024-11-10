@@ -11845,8 +11845,45 @@ textarea.form-control-lg {
   }
 }
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
+  font-family: "Arial", sans-serif;
+  background-color: #f0f2f5;
+}
+
+.btn {
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.btn.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+.btn.btn-primary:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.btn.btn-outline-danger:hover {
+  background-color: #ff4c4c;
+  color: white;
+}
+
+.button-same-size {
+  width: 200px;
+  margin: 0 auto;
+}
+
+h1,
+h2 {
+  color: #007bff;
+}
+
+.new-post-form,
+.update-profile-form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /*# sourceMappingURL=styles.css.map */

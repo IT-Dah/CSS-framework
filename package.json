@@ -1,11 +1,10 @@
 {
   "name": "css-framework",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "build": "sass src/scss/index.scss dist/css/styles.css --style=compressed",
     "watch": "sass --watch src/scss/index.scss:dist/css/styles.css",
-    "start": "live-server dist",
+    "start": "live-server --port=8080",
     "dev": "npm-run-all --parallel watch start"
   },
   "dependencies": {
