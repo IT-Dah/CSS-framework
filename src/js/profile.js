@@ -1,13 +1,12 @@
 // File: src/js/profile.js
-
-import { fetchUserPosts, createPostInAPI } from "../js/services/api.js";
+import { fetchPostsByAuthor, createPostInAPI } from "../js/services/api.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
 
   if (!userData) {
     alert("Please log in.");
-    window.location.href = "/index.html"; // Redirect to login if no user data found
+    window.location.href = "../index.html"; // Redirect to login if no user data found
     return;
   }
 
@@ -18,47 +17,69 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("profileBio").innerText =
     userData.bio || "No bio available";
 
-  // Fetch user's posts based on the userData
+  // Fetch user's posts
   try {
-    const posts = await fetchUserPosts(userData.name);
-    displayPosts(posts.data.slice(0, 6)); // Display the latest 6 posts
+    const posts = await fetchPostsByAuthor(userData.name);
+    displayPosts(posts.data.slice(0, 6)); // Display 6 latest posts
   } catch (error) {
     console.error("Error fetching user posts:", error);
     alert("Failed to fetch posts. Please try again later.");
   }
 
-  // Handle profile update
-  const updateProfileForm = document.getElementById("updateProfileForm");
-  if (updateProfileForm) {
-    updateProfileForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const newBio = document.getElementById("profileBioInput").value;
-      const newAvatar = document.getElementById("profileAvatarInput").value;
+  // Toggle Update Profile form visibility
+  const toggleUpdateProfileButton = document.getElementById(
+    "toggleUpdateProfileButton"
+  );
+  const updateProfileSection = document.getElementById("updateProfileSection");
 
-      const updatedProfile = {
-        bio: newBio,
-        avatar: {
-          url: newAvatar,
-          alt: "User avatar",
+  toggleUpdateProfileButton.addEventListener("click", () => {
+    updateProfileSection.style.display =
+      updateProfileSection.style.display === "none" ? "block" : "none";
+  });
+
+  // Toggle New Post form visibility
+  const toggleNewPostButton = document.getElementById("toggleNewPostButton");
+  const newPostSection = document.getElementById("newPostSection");
+
+  toggleNewPostButton.addEventListener("click", () => {
+    newPostSection.style.display =
+      newPostSection.style.display === "none" ? "block" : "none";
+  });
+
+  // Handle new post submission
+  const newPostForm = document.getElementById("newPostForm");
+  if (newPostForm) {
+    newPostForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const postTitle = document.getElementById("postTitle").value;
+      const postContent = document.getElementById("postContent").value;
+      const postImage = document.getElementById("postImage").value;
+
+      const newPost = {
+        title: postTitle,
+        body: postContent,
+        author: userData.name,
+        media: {
+          url: postImage,
+          alt: "Post Image",
         },
       };
 
-      // Update profile in the API
       try {
-        const response = await updateProfileAPI(updatedProfile);
-        alert("Profile updated successfully!");
-        localStorage.setItem("userData", JSON.stringify(response.data));
-        document.getElementById("profileAvatar").src = response.data.avatar.url;
-        document.getElementById("profileBio").innerText = response.data.bio;
+        const createdPost = await createPostInAPI(newPost);
+        console.log("Post created:", createdPost);
+        alert("Post created successfully!");
+        location.reload(); // Refresh the page to show the new post
       } catch (error) {
-        console.error("Failed to update profile:", error);
-        alert("Failed to update profile.");
+        console.error("Error creating post:", error);
+        alert("Failed to create post.");
       }
     });
   }
 });
 
-// Function to display posts
+// Function to display user's posts
 function displayPosts(posts) {
   const postsContainer = document.getElementById("userPostsContainer");
   postsContainer.innerHTML = ""; // Clear existing posts
@@ -79,7 +100,6 @@ function displayPosts(posts) {
       <div class="card-body">
         <h5 class="card-title">${post.title}</h5>
         <p class="card-text">${post.body}</p>
-        <small class="text-muted">Posted by: ${post.author || "Unknown"}</small>
       </div>
     `;
     postsContainer.appendChild(postElement);
