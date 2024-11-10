@@ -1,39 +1,39 @@
-// File: src/js/feed.js
 import { fetchPostsFromAPI } from "./services/api.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const postsContainer = document.getElementById("postsContainer");
-
   try {
+    // Fetch the posts from the API
     const posts = await fetchPostsFromAPI();
 
-    // Ensure posts data is available
-    if (posts?.data && Array.isArray(posts.data)) {
-      posts.data.forEach((post) => {
-        const postElement = document.createElement("div");
-        postElement.classList.add("col");
+    // Limit to the last 5 posts
+    const recentPosts = posts.data.slice(0, 5); // Adjust the number to limit
 
-        const postCard = `
-          <div class="card h-100">
-            <img src="${
-              post.media?.url || "https://via.placeholder.com/150"
-            }" class="card-img-top" alt="${post.title}" />
-            <div class="card-body">
-              <h5 class="card-title">${post.title}</h5>
-              <p class="card-text">${post.body}</p>
-            </div>
+    console.log("Recent Posts:", recentPosts);
+
+    // Select the container where posts will be displayed
+    const postsContainer = document.getElementById("postsContainer");
+
+    // Loop through the recent posts and display them
+    recentPosts.forEach((post) => {
+      const postElement = document.createElement("div");
+      postElement.classList.add("col");
+
+      // Check if post has media (images, etc.)
+      const mediaUrl = post.media ? post.media.url : ""; // Add your media URL path here
+
+      postElement.innerHTML = `
+        <div class="card h-100">
+          <img src="${mediaUrl}" class="card-img-top" alt="Post Thumbnail" />
+          <div class="card-body">
+            <h5 class="card-title">${post.title}</h5>
+            <p class="card-text">${post.body}</p>
           </div>
-        `;
-
-        postElement.innerHTML = postCard;
-        postsContainer.appendChild(postElement);
-      });
-    } else {
-      postsContainer.innerHTML = "<p>No posts available.</p>";
-    }
+        </div>
+      `;
+      postsContainer.appendChild(postElement);
+    });
   } catch (error) {
     console.error("Error loading posts:", error);
-    postsContainer.innerHTML =
-      "<p>Error loading posts. Please try again later.</p>";
+    alert("Failed to load posts.");
   }
 });
